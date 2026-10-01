@@ -64,8 +64,8 @@ Pebble.addEventListener('webviewclosed', function(e) {
     
     // Explicitly enforce numeric values for all select dropdowns
     dict[key] = Number(selected);
-
-    var numericKeys = ['CenterFocus', 'DayMap', 'NightMap'];
+    
+    var numericKeys = ['CenterFocus', 'DayMap', 'NightMap', 'MarkerLat', 'MarkerLon', 'AltitudeZoom'];
     numericKeys.forEach(function(name) {
       var val = valueOf(raw, name);
       if (val !== undefined && messageKeys[name]) {

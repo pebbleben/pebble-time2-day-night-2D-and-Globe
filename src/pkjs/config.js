@@ -54,33 +54,33 @@ module.exports = [
       {
         "type": "select",
         "messageKey": "TimeFont",
-        "defaultValue": "leco",
+        "defaultValue": "oswald",
         "label": "Time Font Style",
         "options": [
-          { "label": "Retro Digital (Blocky)", "value": "leco" },
-          { "label": "Modern Sans (Large)", "value": "roboto" },
-          { "label": "Chunky & Bold", "value": "bitham" },
-          { "label": "Classic Serif (Elegant)", "value": "serif" },
-          { "label": "Oswald Bold", "value": "oswald" },   // <-- new
-          { "label": "Barlow Regular", "value": "barlow" },   // <-- new
-          { "label": "Barlow Narrow Bold", "value": "barlow_condensed" }   // <-- new
+          { "label": "Barlow Bold (Modern 62)", "value": "barlow" },          
+          { "label": "Oswald Bold (Tall 54)", "value": "oswald" },
+          { "label": "Retro Digital (Leco 42)", "value": "leco" },
+          { "label": "Chunky Bold (Bitham 42)", "value": "bitham" },
+          { "label": "Classic Serif (Serif 28)", "value": "serif" }
         ]
       },
       {
         "type": "select",
         "messageKey": "DateFont",
-        "defaultValue": "gothic",
+        "defaultValue": "gothic28",
         "label": "Date Font Style",
         "options": [
-          { "label": "Clean & Readable", "value": "gothic" },
-          { "label": "Heavy & Bold", "value": "bitham" },
-          { "label": "Classic Serif", "value": "serif" },
-          { "label": "Small & Subtle", "value": "small" }
+          { "label": "Chunky Black (Bitham 30)", "value": "bitham" },
+          { "label": "Clean Bold (Gothic 28)", "value": "gothic28" },
+          { "label": "Classic Serif (Serif 28)", "value": "serif" },
+          { "label": "Medium Sans (Gothic 24)", "value": "gothic24" },
+          { "label": "Small & Minimal (Gothic 18)", "value": "small" }
         ]
       }
     ]
   },
-  {
+  //////////////////////////////////////////////////////////////////
+    {
     "type": "section",
     "items": [
       { "type": "heading", "defaultValue": "Map Behavior" },
@@ -96,13 +96,27 @@ module.exports = [
       },
       {
         "type": "select",
+        "messageKey": "AltitudeZoom",
+        "defaultValue": "100",
+        "label": "Globe Zoom",
+        "options": [
+          { "label": "Whole Globe", "value": "100" },
+          { "label": "Sub-Hemisphere", "value": "120" },
+          { "label": "Continental", "value": "140" },
+          { "label": "Regional", "value": "180" }
+        ]
+      },
+      {
+        "type": "select",
         "messageKey": "CenterFocus",
         "defaultValue": "0",
         "label": "Map Focus Mode",
-        "options": [
+        "options": [          
           { "label": "Fixed Location (Use Sliders)", "value": "0" },
-          { "label": "Center on Day", "value": "1" },
-          { "label": "Center on Night", "value": "2" }
+          { "label": "Center on Nightfall", "value": "4" },
+          { "label": "Center on Night", "value": "2" },                    
+          { "label": "Center on Daybreak", "value": "3" },
+          { "label": "Center on Day", "value": "1" }          
         ]
       },
       {
@@ -110,7 +124,7 @@ module.exports = [
         "messageKey": "LatitudeOffset",
         "defaultValue": 0,
         "label": "View Latitude",
-        "description": "Tilt the 3D globe north or south. Also applies while following day or night.",
+        "description": "Tilt the 3D globe north or south.",
         "min": -90,
         "max": 90,
         "step": 5
@@ -124,6 +138,90 @@ module.exports = [
         "min": -180,
         "max": 180,
         "step": 5
+      }
+    ]
+  },
+//   {
+//     "type": "section",
+//     "items": [
+//       { "type": "heading", "defaultValue": "Map Behavior" },
+//       {
+//         "type": "select",
+//         "messageKey": "MapProjection",
+//         "defaultValue": "0",
+//         "label": "Earth View",
+//         "options": [
+//           { "label": "2D World Map", "value": "0" },
+//           { "label": "3D Globe", "value": "1" }
+//         ]
+//       },
+//       {
+//         "type": "select",
+//         "messageKey": "CenterFocus",
+//         "defaultValue": "0",
+//         "label": "Map Focus Mode",
+//         "options": [
+//           { "label": "Fixed Location (Use Sliders)", "value": "0" },
+//           { "label": "Center on Day", "value": "1" },
+//           { "label": "Center on Night", "value": "2" }
+//         ]
+//       },
+//       {
+//         "type": "slider",
+//         "messageKey": "LatitudeOffset",
+//         "defaultValue": 0,
+//         "label": "View Latitude",
+//         "description": "Tilt the 3D globe north or south. Also applies while following day or night.",
+//         "min": -90,
+//         "max": 90,
+//         "step": 5
+//       },
+//       {
+//         "type": "slider",
+//         "messageKey": "LongitudeOffset",
+//         "defaultValue": 0,
+//         "label": "View Longitude",
+//         "description": "Center longitude: negative is west, positive is east.",
+//         "min": -180,
+//         "max": 180,
+//         "step": 5
+//       }
+//     ]
+//   },
+  ////////////////////////////////////////////////////////////////
+    {
+    "type": "section",
+    "items": [
+      { "type": "heading", "defaultValue": "Location Marker" },
+      {
+        "type": "toggle",
+        "messageKey": "MarkerEnabled",
+        "defaultValue": false,
+        "label": "Show Location Dot"
+      },
+      {
+        "type": "slider",
+        "messageKey": "MarkerLat",
+        "defaultValue": 40,
+        "label": "Marker Latitude",
+        "min": -90,
+        "max": 90,
+        "step": 1
+      },
+      {
+        "type": "slider",
+        "messageKey": "MarkerLon",
+        "defaultValue": -74,
+        "label": "Marker Longitude",
+        "min": -180,
+        "max": 180,
+        "step": 1
+      },
+      {
+        "type": "color",
+        "messageKey": "MarkerColor",
+        "defaultValue": "0xFF0000",
+        "label": "Marker Color"
       }
     ]
   },

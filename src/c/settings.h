@@ -5,7 +5,6 @@
 #define MAP_PROJECTION_2D 0
 #define MAP_PROJECTION_3D 1
 
-/* Preserve the supplied packed layout; append new fields only. */
 typedef struct ClaySettings {
   GColor BackgroundColor;
   GColor ForegroundColor;
@@ -23,6 +22,12 @@ typedef struct ClaySettings {
   char TimeFont[32];
   char DateFont[32];
   int MapProjection;
+  // --- New Marker Fields ---
+  bool MarkerEnabled;
+  int MarkerLat;
+  int MarkerLon;
+  GColor MarkerColor;
+  int AltitudeZoom; // 100 = 1.0x, 140 = 1.4x, 180 = 1.8x
 } __attribute__((__packed__)) ClaySettings;
 
 void settings_init(void);

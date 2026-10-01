@@ -152,6 +152,31 @@ module.exports = function(minified) {
     var longitude = clayConfig.getItemByMessageKey('LongitudeOffset');
     var isFixedFocus = String(clayConfig.getItemByMessageKey('CenterFocus').get()) === '0';
 
+    // Add inside toggleVisibility():
+    var markerEnabled = clayConfig.getItemByMessageKey('MarkerEnabled').get();
+    var markerLat = clayConfig.getItemByMessageKey('MarkerLat');
+    var markerLon = clayConfig.getItemByMessageKey('MarkerLon');
+    var markerColor = clayConfig.getItemByMessageKey('MarkerColor');
+
+    // Inside toggleVisibility():
+    var is3D = String(clayConfig.getItemByMessageKey('MapProjection').get()) === '1';
+    var altitudeZoom = clayConfig.getItemByMessageKey('AltitudeZoom');
+    if (is3D) {
+      altitudeZoom.show();
+    } else {
+      altitudeZoom.hide();
+    }
+    
+    if (markerEnabled) {
+      markerLat.show();
+      markerLon.show();
+      markerColor.show();
+    } else {
+      markerLat.hide();
+      markerLon.hide();
+      markerColor.hide();
+    }
+    
     // Latitude slider only makes sense in 3D globe mode
     if (is3D) {
       latitude.show();
@@ -229,6 +254,8 @@ module.exports = function(minified) {
     focusSelect.on('change', toggleVisibility);
     dayMapSelect.on('change', toggleVisibility);
     nightMapSelect.on('change', toggleVisibility);
+    
+    clayConfig.getItemByMessageKey('MarkerEnabled').on('change', toggleVisibility);
 
     function resetToCustom() {
       if (isApplyingTheme) return; 

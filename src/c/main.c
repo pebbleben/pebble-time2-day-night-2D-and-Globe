@@ -47,13 +47,16 @@ static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
 static void prv_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  // Initialize Text and Map modules
-  map_init(window_layer, bounds);
+  // 1. TEXT LAYERS FIRST (In the back)
   text_display_init(window_layer, bounds);
+
+  // 2. MAP LAYER SECOND (In the front, with transparent space around the sphere)
+  map_init(window_layer, bounds);
 
   // Apply colors and load maps initially
   update_display_from_settings();
@@ -62,6 +65,22 @@ static void prv_window_load(Window *window) {
   time_t now = time(NULL);
   handle_minute_tick(localtime(&now), MINUTE_UNIT);
 }
+// static void prv_window_load(Window *window) {
+//   Layer *window_layer = window_get_root_layer(window);
+//   GRect bounds = layer_get_bounds(window_layer);
+
+//   // Initialize Text and Map modules
+//   map_init(window_layer, bounds);
+//   text_display_init(window_layer, bounds);
+
+//   // Apply colors and load maps initially
+//   update_display_from_settings();
+
+//   // Force first tick
+//   time_t now = time(NULL);
+//   handle_minute_tick(localtime(&now), MINUTE_UNIT);
+// }
+/////////////////////////////////////////////////////////////////////////////////////
 
 static void prv_window_unload(Window *window) {
   text_display_deinit();

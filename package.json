@@ -30,7 +30,12 @@
             "TimeFont",
             "DateFont",
             "LatitudeOffset",
-            "MapProjection"
+            "MapProjection",
+            "MarkerEnabled",
+            "MarkerLat",
+            "MarkerLon",
+            "MarkerColor",
+            "AltitudeZoom"
         ],
         "projectType": "native",
         "resources": {
@@ -109,5 +114,5 @@
             "watchface": true
         }
     },
-    "version": "1.0.1"
+    "version": "1.0.9"
 }

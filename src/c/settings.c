@@ -29,19 +29,29 @@ static void defaults(void) {
   s_settings.NightLand = GColorDarkGreen;
   s_settings.NightWater = GColorOxfordBlue;
   s_settings.NightIce = GColorDarkGray;
-  strcpy(s_settings.TimeFont, "leco");
-  strcpy(s_settings.DateFont, "bitham");
+  strcpy(s_settings.TimeFont, "oswald");
+  strcpy(s_settings.DateFont, "gothic28");
   s_settings.MapProjection = MAP_PROJECTION_2D;
+  s_settings.MarkerEnabled = false;
+  s_settings.MarkerLat = 40;  // Default: New York
+  s_settings.MarkerLon = -74;
+  s_settings.MarkerColor = GColorRed;
+  s_settings.AltitudeZoom = 100; // 100% (1.0x)
 }
 static void validate(void) {
   s_settings.DayMapIndex = clamp_int(s_settings.DayMapIndex, 0, 2);
   s_settings.NightMapIndex = clamp_int(s_settings.NightMapIndex, 0, 2);
-  s_settings.CenterFocus = clamp_int(s_settings.CenterFocus, 0, 2);
+  s_settings.CenterFocus = clamp_int(s_settings.CenterFocus, 0, 4);
   s_settings.LongitudeOffset = clamp_int(s_settings.LongitudeOffset, -180, 180);
   s_settings.LatitudeOffset = clamp_int(s_settings.LatitudeOffset, -90, 90);
   s_settings.MapProjection = clamp_int(s_settings.MapProjection, 0, 1);
   s_settings.TimeFont[sizeof(s_settings.TimeFont)-1] = '\0';
   s_settings.DateFont[sizeof(s_settings.DateFont)-1] = '\0';
+  s_settings.MarkerLat = clamp_int(s_settings.MarkerLat, -90, 90);
+  s_settings.MarkerLon = clamp_int(s_settings.MarkerLon, -180, 180);
+  if (s_settings.AltitudeZoom < 100 || s_settings.AltitudeZoom > 250) {
+    s_settings.AltitudeZoom = 100;
+  }  
 }
 void settings_init(void) {
   defaults();
@@ -132,6 +142,19 @@ bool settings_update_from_dict(DictionaryIterator *iter) {
   PARSE_INT(MESSAGE_KEY_LatitudeOffset, LatitudeOffset);
   PARSE_INT(MESSAGE_KEY_CenterFocus, CenterFocus);
   Tuple *projection_t = dict_find(iter, MESSAGE_KEY_MapProjection);
+
+  PARSE_INT(MESSAGE_KEY_AltitudeZoom, AltitudeZoom);
+  
+  // Add these lines along with the other PARSE macros:
+  Tuple *marker_en_t = dict_find(iter, MESSAGE_KEY_MarkerEnabled);
+  if (marker_en_t) {
+    s_settings.MarkerEnabled = (marker_en_t->value->int32 == 1);
+    changed = true;
+  }
+  PARSE_INT(MESSAGE_KEY_MarkerLat, MarkerLat);
+  PARSE_INT(MESSAGE_KEY_MarkerLon, MarkerLon);
+  PARSE_COLOR(MESSAGE_KEY_MarkerColor, MarkerColor);
+  
   int projection_value;
   if (tuple_int(projection_t, &projection_value) &&
       (projection_value == 0 || projection_value == 1)) {
